@@ -1,0 +1,143 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-bottom-primary">
+            <div class="card-header bg-white py-3">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="h5 align-middle m-0 font-weight-bold text-primary">
+                            Form Input Pesanan
+                        </h4>
+                    </div>
+                    <div class="col-auto">
+                        <a href="<?= base_url('pemesanan') ?>" class="btn btn-sm btn-secondary btn-icon-split">
+                            <span class="icon">
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                            <span class="text">
+                                Kembali
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <?= $this->session->flashdata('pesan'); ?>
+                <?= form_open('', [], ['id_pemesanan' => $id_pemesanan, 'user_id' => $this->session->userdata('login_session')['user']]); ?>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="id_pemesanan">ID Transaksi Pesanan</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-id-card"></i></span>
+                            </div>
+                            <input value="<?= $id_pemesanan; ?>" type="text" readonly="readonly" class="form-control">
+                        </div>
+                        <?= form_error('id_pemesanan', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="tanggal_keluar">Tanggal Keluar</label>
+                    <div class="col-md-4">
+                        <input value="<?= set_value('tanggal_keluar', date('Y-m-d')); ?>" name="tanggal_keluar" id="tanggal_keluar" type="text" class="form-control date" placeholder="Tanggal Masuk...">
+                        <?= form_error('tanggal_keluar', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="konsumen_id">Konsumen</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-fw fa-user"></i></span>
+                            </div>
+                            <select name="konsumen_id" id="konsumen_id" class="custom-select">
+                                <option value="" selected disabled>Pilih Konsumen</option>
+                                <?php foreach ($konsumen as $k) : ?>
+                                    <option <?= set_select('konsumen_id', $k['id_konsumen']) ?> value="<?= $k['id_konsumen'] ?>"><?= $k['nama_konsumen'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="input-group-append">
+                                <a class="btn btn-primary" href="<?= base_url('konsumen/add'); ?>"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <?= form_error('konsumen_id', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="produk_id">Produk</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-boxes"></i></span>
+                            </div>
+                            <select name="produk_id" id="produk_id" class="custom-select">
+                                <option value="" selected disabled>Pilih Produk</option>
+                                <?php foreach ($produk as $b) : ?>
+                                    <option data-harga="<?= $b['harga_jual'] ?>" value="<?= $b['id_produk'] ?>"><?= $b['id_produk'] . ' | ' . $b['nama'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="input-group-append">
+                                <a class="btn btn-primary" href="<?= base_url('produk/add'); ?>"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <?= form_error('produk_id', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="stok">Stok</label>
+                    <div class="col-md-5">
+                        <input readonly="readonly" id="stok" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="jumlah_keluar">Jumlah Keluar</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <input min="0" value="<?= set_value('jumlah_keluar'); ?>" name="jumlah_keluar" id="jumlah_keluar" type="number" class="form-control" placeholder="Jumlah Keluar...">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="satuan">Satuan</span>
+                            </div>
+                        </div>
+                        <?= form_error('jumlah_keluar', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="total_stok">Total Stok</label>
+                    <div class="col-md-5">
+                        <input min="0" readonly="readonly" id="total_stok" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="harga">Harga</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-hand-holding-usd"></i></span>
+                            </div>
+                            <input readonly="readonly" id="harga" type="number" class="form-control harga">
+                        </div>
+                        <?= form_error('harga', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-4 text-md-right" for="total_harga">Total Harga</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-hand-holding-usd"></i></span>
+                            </div>
+                            <input min="0" readonly="readonly" id="total_harga" type="number" class="form-control total_harga">
+                        </div>
+                        <?= form_error('total_harga', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col offset-md-4">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+                <?= form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
